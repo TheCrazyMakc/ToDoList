@@ -19,5 +19,32 @@
           Уже есть аккаунт? <a href="../public/index.html">Войдите</a>
       </div>
   </div>
+
+<script>
+  document.querySelector('form').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const username = document.querySelector('input[type="text"]').value;
+    const password = document.querySelector('input[type="password"]').value;
+
+    try {
+      const response = await fetch('http://localhost:3000/auth/register', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ username, password }),
+      });
+      
+      const data = await response.json();
+      
+      if (response.ok) {
+        alert(data.message);
+        window.location.href = '/index.html'; // Перенаправляем на вход
+      } else {
+        alert(data.error);
+      }
+    } catch (err) {
+      alert('Ошибка сети');
+    }
+  });
+</script>
 </body>
 </html>
